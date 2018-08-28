@@ -1,4 +1,4 @@
-const config = require("./config.json"); //nysbot
+const config = require("./config.json"); //nysbothello
 const Discord = require("discord.js");
 
 const bot = new Discord.Client({disableEveryone: true});
