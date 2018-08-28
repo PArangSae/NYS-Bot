@@ -50,10 +50,7 @@ bot.on("message", async message => {
       .addField("Developer", "NYANGI")
       .addField("Development start date", bot.user.createdAt)
       .addField("Development Language", "Javascript")
-<<<<<<< HEAD
-=======
       .addField("Hosting", "Heroku");
->>>>>>> 4f6a560eed5a5df9292b464bc777edff4c7096f9
       return message.channel.send(iembed);
       break;
 
