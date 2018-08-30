@@ -9,6 +9,8 @@ const cheerio = require('cheerio');
 const request = require('request');
 const url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330"
 
+let pData = [];
+
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
   bot.user.setGame("//help");
@@ -34,6 +36,7 @@ bot.on("message", async message => {
     case `${prefix}help`: //help
       let hprofileIMG = bot.user.displayAvatarURL;
       let hembed = new Discord.RichEmbed()
+      .setTitle("NYS Bot Commands")
       .setDescription("NYS Bot Commands")
       .setColor("#2478FF")
       .setThumbnail(hprofileIMG)
@@ -47,6 +50,7 @@ bot.on("message", async message => {
     case `${prefix}info`: //봇 정보
       let iprofileIMG = bot.user.displayAvatarURL;
       let iembed = new Discord.RichEmbed()
+      .setTitle("NYS Bot Information")
       .setDescription("NYS Bot Information")
       .setColor("#2478FF")
       .setThumbnail(iprofileIMG)
@@ -83,7 +87,17 @@ bot.on("message", async message => {
     request(url, function(error, response, html){
     if (error) {throw error};
       const uObj = JSON.parse(html);
-      console.log(uObj[0]);
+      pData = [];
+      for (var i = 0; i < 3; i++) {
+        pData.push({username: uObj[i].project.user.username,name: uObj[i].project.name,visit: uObj[i].project.visit,like: uObj[i].project.likeCnt,comment: uObj[i].project.comment, shortenUrl: uObj[i].project.shortenUrl});
+      }
+      let spembed = new Discord.RichEmbed()
+      .setTitle("Entry Staff Picks")
+      .setDescription("엔트리 실시간 스태프 선정 작품")
+      .setColor("#2478FF")
+      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
+      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
+      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
     });
 
     break;
