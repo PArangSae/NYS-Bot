@@ -43,7 +43,9 @@ bot.on("message", async message => {
       .addField(`${prefix}help`, "도움말을 확인합니다.")
       .addField(`${prefix}info`, "니스봇의 정보를 확인합니다.")
       .addField(`${prefix}say <말할 것>`, "말할 것을 말합니다.")
-      .addField(`${prefix}pick <첫번째 숫자> [두번째 숫자]`, "1부터 첫번째 숫자 중 하나의 숫자를 뽑거나 첫번째 숫자부터 두번째 숫자 중 하나의 숫자를 뽑습니다.");
+      .addField(`${prefix}pick <첫번째 숫자> [두번째 숫자]`, "1부터 첫번째 숫자 중 하나의 숫자를 뽑거나 첫번째 숫자부터 두번째 숫자 중 하나의 숫자를 뽑습니다.")
+      .addField(`${prefix}sp`, "엔트리 스태프 선정 작품을 실시간으로 확인합니다.")
+      .addField(`${prefix}pp`, "엔트리 인기작품을 실시간으로 확인합니다.");
       return message.channel.send(hembed);
       break;
 
@@ -110,7 +112,7 @@ bot.on("message", async message => {
       const pObj = JSON.parse(html);
       pData = [];
       for (var j = 0; j < 9; j++) {
-        pData.push({username: pObj[i].project.user.username,name: pObj[i].project.name,visit: pObj[i].project.visit,like: pObj[i].project.likeCnt,comment: pObj[i].project.comment, shortenUrl: pObj[i].project.shortenUrl});
+        pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].project.shortenUrl});
       }
       let ppembed = new Discord.RichEmbed()
       .setTitle("Entry Popular Projects")
