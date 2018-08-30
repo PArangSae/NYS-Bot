@@ -86,7 +86,7 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}sp`:
-    url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
+    url = "https://playentry.org/api/rankProject?type=staff&limit=3";
     request(url, function(error, response, html){
     if (error) {throw error};
       const uObj = JSON.parse(html);
@@ -106,13 +106,13 @@ bot.on("message", async message => {
     break;
 
     case `${prefix}pp`:
-    url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
+    url = "https://playentry.org/api/rankProject?type=best&limit=9";
     request(url, function(error, response, html){
     if (error) {throw error};
       const pObj = JSON.parse(html);
       pData = [];
       for (var j = 0; j < 9; j++) {
-        pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].shortenUrl});
+        pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].project.shortenUrl});
       }
       let ppembed = new Discord.RichEmbed()
       .setTitle("Entry Popular Projects")
