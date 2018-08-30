@@ -7,7 +7,7 @@ const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목
 
 const cheerio = require('cheerio');
 const request = require('request');
-const url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330"
+let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 
 let pData = [];
 
@@ -84,6 +84,7 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}sp`:
+    url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
     request(url, function(error, response, html){
     if (error) {throw error};
       const uObj = JSON.parse(html);
@@ -100,7 +101,32 @@ bot.on("message", async message => {
       .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
       return message.channel.send(spembed);
     });
+    break;
 
+    case `${prefix}pp`:
+    url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
+    request(url, function(error, response, html){
+    if (error) {throw error};
+      const pObj = JSON.parse(html);
+      pData = [];
+      for (var j = 0; j < 9; j++) {
+        pData.push({username: pObj[i].project.user.username,name: pObj[i].project.name,visit: pObj[i].project.visit,like: pObj[i].project.likeCnt,comment: pObj[i].project.comment, shortenUrl: pObj[i].project.shortenUrl});
+      }
+      let ppembed = new Discord.RichEmbed()
+      .setTitle("Entry Popular Projects")
+      .setDescription("엔트리 실시간 인기작품")
+      .setColor("#2478FF")
+      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
+      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
+      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`)
+      .addField(pData[3].name, `개발자 ${pData[3].username} | 조회수 ${pData[3].visit} | 좋아요 ${pData[3].like}개 | 댓글 ${pData[3].comment}개 | [Click here](${pData[3].shortenUrl})`)
+      .addField(pData[4].name, `개발자 ${pData[4].username} | 조회수 ${pData[4].visit} | 좋아요 ${pData[4].like}개 | 댓글 ${pData[4].comment}개 | [Click here](${pData[4].shortenUrl})`)
+      .addField(pData[5].name, `개발자 ${pData[5].username} | 조회수 ${pData[5].visit} | 좋아요 ${pData[5].like}개 | 댓글 ${pData[5].comment}개 | [Click here](${pData[5].shortenUrl})`)
+      .addField(pData[6].name, `개발자 ${pData[6].username} | 조회수 ${pData[6].visit} | 좋아요 ${pData[6].like}개 | 댓글 ${pData[6].comment}개 | [Click here](${pData[6].shortenUrl})`)
+      .addField(pData[7].name, `개발자 ${pData[7].username} | 조회수 ${pData[7].visit} | 좋아요 ${pData[7].like}개 | 댓글 ${pData[7].comment}개 | [Click here](${pData[7].shortenUrl})`)
+      .addField(pData[8].name, `개발자 ${pData[8].username} | 조회수 ${pData[8].visit} | 좋아요 ${pData[8].like}개 | 댓글 ${pData[8].comment}개 | [Click here](${pData[8].shortenUrl})`);
+      return message.channel.send(ppembed);
+    });
     break;
 
     default: //구문이 잘못된 경우
