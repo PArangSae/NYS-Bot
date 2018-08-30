@@ -79,7 +79,8 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}sp`:
-
+    return message.channel.send("hello");
+    break;
 
     default: //구문이 잘못된 경우
       errorPrint(0);
