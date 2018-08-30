@@ -83,10 +83,7 @@ bot.on("message", async message => {
     request(url, function(error, response, html){
     if (error) {throw error};
       const uObj = JSON.parse(html);
-      //const uArr = Object.keys(uObj)
-      //return message.channel.send(uObj.);
-      console.log(html);
-      return message.channel.send(html.replace(`%22`, `"`));
+      console.log(uObj[0]);
     });
 
     break;
