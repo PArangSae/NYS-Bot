@@ -5,8 +5,9 @@ const bot = new Discord.Client({disableEveryone: true});
 
 const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다."]
 
-//const request = require("request");
-//const url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330"
+const cheerio = require('cheerio');
+const request = require('request');
+const url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330"
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -79,7 +80,11 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}sp`:
-    return message.channel.send("hello");
+    request(url, function(error, response, html){
+    if (error) {throw error};
+        return message.channel.send(html);
+    });
+
     break;
 
     default: //구문이 잘못된 경우
