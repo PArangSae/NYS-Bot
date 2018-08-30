@@ -82,7 +82,8 @@ bot.on("message", async message => {
     case `${prefix}sp`:
     request(url, function(error, response, html){
     if (error) {throw error};
-        return message.channel.send(html);
+      const uObj = JSON.parse(html);
+      return message.channel.send(uObj);
     });
 
     break;
