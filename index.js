@@ -98,6 +98,7 @@ bot.on("message", async message => {
       .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
       .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
       .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
+      return message.channel.send(spembed);
     });
 
     break;
