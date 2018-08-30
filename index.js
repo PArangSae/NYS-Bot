@@ -112,7 +112,7 @@ bot.on("message", async message => {
       const pObj = JSON.parse(html);
       pData = [];
       for (var j = 0; j < 9; j++) {
-        pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].project.shortenUrl});
+        pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].shortenUrl});
       }
       let ppembed = new Discord.RichEmbed()
       .setTitle("Entry Popular Projects")
