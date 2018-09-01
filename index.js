@@ -1,12 +1,8 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
-const ytdl = require("ytdl-core");
 const music = require("discord.js-music-v11");
-const YoutubeDL = require("youtube-dl");
 
 const bot = new Discord.Client({disableEveryone: true});
-
-var servers = {};
 
 const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "음성채널에 입장 후 실행해주세요."];
 
