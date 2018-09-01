@@ -73,7 +73,7 @@ bot.on("message", async message => {
 
     case `${prefix}say`: //말하기
       if (messageArray.length > 0) {
-        return message.channel.send(allArgs);
+        return message.channel.send(allArgs + " " + message.length);
       }
       break;
 
@@ -137,6 +137,10 @@ bot.on("message", async message => {
       return message.channel.send(ppembed);
     });
     break;
+
+    case `${prefix}s`:
+    case `${prefix}search`:
+      if
 
     /*
     case `${prefix}play`: //음악 재생 명령어
