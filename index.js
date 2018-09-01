@@ -180,7 +180,7 @@ bot.on("message", async message => {
               .setImage(res.body.data.image_url)
               .setAuthor(message.author.tag, message.author.displayAvatarURL);
 
-              message.channel.send(gifembed);
+              return message.channel.send(gifembed);
               break;
           }
         }
