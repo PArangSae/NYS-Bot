@@ -1,6 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
-const YTDL = require("ytdl-core");
+const ytdl = require("ytdl-core");
+const streamOptions = { seek: 0, volume: 1 };
 
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -144,30 +145,13 @@ bot.on("message", async message => {
         return;
       }
 
-      if(!servers[message.guild.id]) servers[message.guild.id] = {
-        queue: []
-      };
+      voiceChannel.join()
+      .then(connection => {
+        const stream = ytdl('https://www.youtube.com/watch?v=aiHSVQy9xN8', { filter : 'audioonly' });
+        const dispatcher = connection.playStream(stream, streamOptions);
+        })
+          .catch(console.error);
 
-      var server = servers[message.guild.id];
-
-      server.queue.push(messageArray[1]);
-
-      if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
-        play(connection, message);
-      });
-
-      break;
-
-    case `${prefix}skip`:
-      var server = servers[message.guild.id];
-
-      if(server.dispatcher) server.dispatcher.end();
-      break;
-
-    case `${prefix}stop`:
-      var server = servers[message.guild.id];
-
-      if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
 
     default: //구문이 잘못된 경우
