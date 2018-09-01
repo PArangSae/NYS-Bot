@@ -1,7 +1,8 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
-const streamOptions = { seek: 0, volume: 1 };
+const music = require("discord.js-music-v11");
+const YoutubeDL = require("youtube-dl");
 
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -34,6 +35,13 @@ bot.on("message", async message => {
   let d = new Date();
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
+
+  music(Bot, {
+  	prefix: "//",     // Prefix of '-'.
+  	global: false,   // Server-specific queues.
+  	maxQueueSize: 10, // Maximum queue size of 10.
+  	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
+  });
 
   switch (cmd) {
     case `${prefix}help`: //help
@@ -134,29 +142,24 @@ bot.on("message", async message => {
     });
     break;
 
+    /*
     case `${prefix}play`: //음악 재생 명령어
       //if(!messageArray[1]) {
         //errorPrint(2); //파라미터를 입력해주세요
         //return;
       //}
 
-      if(!message.member.voiceChannel) {
-        errorPrint(3); //음성채널에 입장해주세요
-        return;
-      }
-
-      message.member.voiceChannel.join()
-      .then(connection => {
-        const stream = ytdl('https://www.youtube.com/watch?v=aiHSVQy9xN8', { filter : 'audioonly' });
-        const dispatcher = connection.playStream(stream, streamOptions);
-        })
-          .catch(console.error);
-
+      //if(!message.member.voiceChannel) {
+        //errorPrint(3); //음성채널에 입장해주세요
+        //return;
+      //}
+      return play()
       break;
 
     default: //구문이 잘못된 경우
       errorPrint(0);
   }
+  */
 
   function errorPrint(num) {
     return message.channel.send(mention + "```" + errors[num] + "```");
