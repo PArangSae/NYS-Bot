@@ -150,6 +150,8 @@ bot.on("message", async message => {
 
       let server = servers[message.guild.id];
 
+      server.queue.push(messageArray[1]);
+
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
         play(connection, message)
       });
