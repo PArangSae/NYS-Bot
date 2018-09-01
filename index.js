@@ -1,5 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
+const got = require("got");
+const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
 //const music = require("discord.js-music-v11");
 
 const bot = new Discord.Client({disableEveryone: true});
@@ -27,6 +29,9 @@ bot.on("message", async message => {
   let args = messageArray.slice(1);
   let mention = message.author;
   let allArgs = message.content.replace(cmd + " ", "");
+  let allSArgs = message.content.replace("s ", "");
+  let urlEncode1 = encodeURI(allArgs);
+  let urlEncode2 = encodeURI(allSArgs);
 
   let d = new Date();
 
@@ -41,8 +46,8 @@ bot.on("message", async message => {
 
   switch (cmd) {
     case `${prefix}help`: //help
-      let hprofileIMG = bot.user.displayAvatarURL;
-      let hembed = new Discord.RichEmbed()
+      const hprofileIMG = bot.user.displayAvatarURL;
+      const hembed = new Discord.RichEmbed()
       .setTitle("NYS Bot Commands")
       .setDescription("NYS Bot Commands")
       .setColor("#2478FF")
@@ -52,13 +57,14 @@ bot.on("message", async message => {
       .addField(`${prefix}say <말할 것>`, "말할 것을 말합니다.")
       .addField(`${prefix}pick <첫번째 숫자> [두번째 숫자]`, "1부터 첫번째 숫자 중 하나의 숫자를 뽑거나 첫번째 숫자부터 두번째 숫자 중 하나의 숫자를 뽑습니다.")
       .addField(`${prefix}sp`, "엔트리 스태프 선정 작품을 실시간으로 확인합니다.")
-      .addField(`${prefix}pp`, "엔트리 인기작품을 실시간으로 확인합니다.");
+      .addField(`${prefix}pp`, "엔트리 인기작품을 실시간으로 확인합니다.")
+      .addField(`${prefix}s help`, "검색 도움말을 확인합니다.");
       return message.channel.send(hembed);
       break;
 
     case `${prefix}info`: //봇 정보
-      let iprofileIMG = bot.user.displayAvatarURL;
-      let iembed = new Discord.RichEmbed()
+      const iprofileIMG = bot.user.displayAvatarURL;
+      const iembed = new Discord.RichEmbed()
       .setTitle("NYS Bot Information")
       .setDescription("NYS Bot Information")
       .setColor("#2478FF")
@@ -105,7 +111,7 @@ bot.on("message", async message => {
       for (var i = 0; i < 3; i++) {
         pData.push({username: uObj[i].project.user.username,name: uObj[i].project.name,visit: uObj[i].project.visit,like: uObj[i].project.likeCnt,comment: uObj[i].project.comment, shortenUrl: uObj[i].project.shortenUrl});
       }
-      let spembed = new Discord.RichEmbed()
+      const spembed = new Discord.RichEmbed()
       .setTitle("Entry Staff Picks")
       .setDescription("엔트리 실시간 스태프 선정 작품")
       .setColor("#2478FF")
@@ -125,7 +131,7 @@ bot.on("message", async message => {
       for (var j = 0; j < 9; j++) {
         pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].project.shortenUrl});
       }
-      let ppembed = new Discord.RichEmbed()
+      const ppembed = new Discord.RichEmbed()
       .setTitle("Entry Popular Projects")
       .setDescription("엔트리 실시간 인기작품")
       .setColor("#2478FF")
@@ -142,8 +148,43 @@ bot.on("message", async message => {
     });
     break;
 
-  //  case `${prefix}s`:
-  //  case `${prefix}search`:
+    case `${prefix}s`:
+    case `${prefix}search`:
+      if(messageArray.length == 2 && messageArray[1] == "help") {
+        const shembed = new Discord.RichEmbed()
+        .setTitle("NYS Bot Search Commands")
+        .setDescription(`NYS Bot Search Commands [접두사 's'는 'search'로 사용 가능합니다. 예) ${prefix}s naver 니스봇 = ${prefix}search naver 니스봇]`)
+        .setColor("#2478FF")
+        .addField(`${prefix}s help`, "검색 도움말을 확인합니다.")
+        .addField(`${prefix}s naver <검색어>`, "네이버 검색을 합니다.")
+        .addField(`${prefix}s google <검색어>`, "구글 검색을 합니다.")
+        //.addField(`${prefix}s entry <검색어>`, "엔트리 작품 검색을 합니다.")
+        //.addField(`${prefix}s entryc <검색어>`, "엔트리 커뮤니티 검색을 합니다.")
+        .addField(`${prefix}s gif <검색어>`, "랜덤 GIF(Giphy) 검색을 합니다.");
+        return message.channel.send(shembed);
+      } else {
+        if(messageArray.length > 2) {
+          switch(messageArray[1]) {
+            case "naver":
+              return message.channel.send(`${mention} "${allSArgs}"에 대한 네이버 검색 결과 :\n\n[https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=${urlSEncode}]`);
+              break;
+
+            case "google":
+              return message.channel.send(`${mention} "${allSArgs}"에 대한 구글 검색 결과 :\n\n[https://www.google.co.kr/search?safe=active&source=hp&ei=AIGKW7jMNs3l-AbD0puQCw&q=${urlSEncode}]`);
+              break;
+
+            case "gif":
+              const res = await got(`https://api.giphy.com/v1/gifs/random?api_key=${giphyApi}&tag=${urlSEncode}`, {json: true});
+              const gifembed = new Discord.RichEmbed()
+              .setDescription(`${allSArgs}에 대한 Giphy 검색 결과`)
+              .setImage(res.body.data.image_url)
+              .setAuthor(message.author.tag, message.author.displayAvatarURL);
+
+              message.channel.send(gifembed);
+              break;
+          }
+        }
+      }
 
 
     /*
