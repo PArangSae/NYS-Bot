@@ -135,17 +135,17 @@ bot.on("message", async message => {
     break;
 
     case `${prefix}play`: //음악 재생 명령어
-      if(!messageArray[1]) {
-        errorPrint(2); //파라미터를 입력해주세요
-        return;
-      }
+      //if(!messageArray[1]) {
+        //errorPrint(2); //파라미터를 입력해주세요
+        //return;
+      //}
 
       if(!message.member.voiceChannel) {
         errorPrint(3); //음성채널에 입장해주세요
         return;
       }
 
-      voiceChannel.join()
+      message.member.voiceChannel.join()
       .then(connection => {
         const stream = ytdl('https://www.youtube.com/watch?v=aiHSVQy9xN8', { filter : 'audioonly' });
         const dispatcher = connection.playStream(stream, streamOptions);
