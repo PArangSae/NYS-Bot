@@ -138,9 +138,9 @@ bot.on("message", async message => {
     });
     break;
 
-    case `${prefix}s`:
-    case `${prefix}search`:
-      if
+  //  case `${prefix}s`:
+  //  case `${prefix}search`:
+
 
     /*
     case `${prefix}play`: //음악 재생 명령어
