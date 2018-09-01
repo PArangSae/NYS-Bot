@@ -146,26 +146,26 @@ bot.on("message", async message => {
 
       if(!servers[message.guild.id]) servers[message.guild.id] = {
         queue: []
-      }
+      };
 
       let server = servers[message.guild.id];
 
       server.queue.push(messageArray[1]);
 
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
-        play(connection, message)
+        play(connection, message);
       });
 
       break;
 
     case `${prefix}skip`:
-      let server1 = servers[message.guild.id];
+      let server = servers[message.guild.id];
 
-      if(server1.dispatcher) server1.dispatcher.end();
+      if(server.dispatcher) server1.dispatcher.end();
       break;
 
     case `${prefix}stop`:
-      let server2 = servers[message.guild.id];
+      let server = servers[message.guild.id];
 
       if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
