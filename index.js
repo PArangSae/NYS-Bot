@@ -73,7 +73,7 @@ bot.on("message", async message => {
 
     case `${prefix}say`: //말하기
       if (messageArray.length > 0) {
-        return message.channel.send(allArgs + " " + message.length);
+        return message.channel.send(allArgs + " " + messageArray.length);
       }
       break;
 
