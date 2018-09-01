@@ -175,13 +175,13 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}skip`:
-      let server = servers[message.guild.id];
+      let server1 = servers[message.guild.id];
 
-      if(server.dispatcher) server.dispatcher.end();
+      if(server1.dispatcher) server1.dispatcher.end();
       break;
 
     case `${prefix}stop`:
-      let server = servers[message.guild.id];
+      let server2 = servers[message.guild.id];
 
       if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
