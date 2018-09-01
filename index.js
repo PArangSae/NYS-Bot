@@ -165,7 +165,7 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}stop`:
-      let server = servers[message.guild.id];
+      let server2 = servers[message.guild.id];
 
       if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
