@@ -29,7 +29,7 @@ bot.on("message", async message => {
   let args = messageArray.slice(1);
   let mention = message.author;
   let allArgs = message.content.replace(cmd + " ", "");
-  let allSArgs = allArgs.replace(messageArray[0] + " ", "");
+  let allSArgs = message.content.replace(messageArray[0] + " " + messageArray[1] + " ", "");
   let urlEncode = encodeURI(allArgs);
   let urlSEncode = encodeURI(allSArgs);
 
