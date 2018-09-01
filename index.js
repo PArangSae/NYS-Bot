@@ -144,7 +144,7 @@ bot.on("message", async message => {
         return;
       }
 
-      if(!severs[message.guild.id]) servers[message.guild.id] = {
+      if(!servers[message.guild.id]) servers[message.guild.id] = {
         queue: []
       }
 
