@@ -1,15 +1,35 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
+const YTDL = require("ytdl-core");
 
 const bot = new Discord.Client({disableEveryone: true});
 
-const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다."]
+let servers = {};
+
+const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "음성채널에 입장 후 실행해주세요."];
 
 const cheerio = require('cheerio');
 const request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
-
 let pData = [];
+
+  function errorPrint(num) {
+    return message.channel.send(mention + "```" + errors[num] + "```");
+  }
+
+  function play(connection, message) {
+    let server = servers[message.guild.id];
+
+    server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
+
+    server.queue.shift();
+
+    server.dispatcher.on("end", function() {
+      if(server.queue[0]) play(connection, message);
+      else connection.disconnect();
+    });
+  }
+
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -131,13 +151,43 @@ bot.on("message", async message => {
     });
     break;
 
+    case `${prefix}play`: //음악 재생 명령어
+      if(!messageArray[1]) {
+        errorPrint(2); //파라미터를 입력해주세요
+        return;
+      }
+
+      if(!message.member.voiceChannel) {
+        errorPrint(3); //음성채널에 입장해주세요
+        return;
+      }
+
+      if(!severs[message.guild.id]) servers[message.guild.id] = {
+        queue: []
+      }
+
+      let server = servers[message.guild.id];
+
+      if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection){
+        play(connection, message)
+      });
+
+      break;
+
+    case `${prefix}skip`:
+      let server = servers[message.guild.id];
+
+      if(server.dispatcher) server.dispatcher.end();
+      break;
+
+    case `${prefix}stop`:
+      let server = servers[message.guild.id];
+
+      if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+      break;
+
     default: //구문이 잘못된 경우
       errorPrint(0);
-  }
-
-
-  function errorPrint(num) {
-    return message.channel.send(mention + "```" + errors[num] + "```");
   }
 
 });
