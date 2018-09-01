@@ -73,13 +73,14 @@ bot.on("message", async message => {
       .addField("Developer", "NYANGI")
       .addField("Development start date", bot.user.createdAt)
       .addField("Development Language", "Javascript")
-      .addField("Hosting", "Heroku");
+      .addField("Hosting", "Heroku")
+      .addField("Invite Link", "https://discordapp.com/oauth2/authorize?client_id=472572874192977930&scope=bot&permissions=bot");
       return message.channel.send(iembed);
       break;
 
     case `${prefix}say`: //말하기
       if (messageArray.length > 1) {
-        return message.channel.send(allArgs + " " + messageArray.length);
+        return message.channel.send(allArgs);
       } else {
         errorPrint(1);
       }
