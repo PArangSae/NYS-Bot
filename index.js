@@ -151,27 +151,15 @@ bot.on("message", async message => {
       //}
       return play()
       break;
+      */
 
     default: //구문이 잘못된 경우
       errorPrint(0);
   }
-  */
+
 
   function errorPrint(num) {
     return message.channel.send(mention + "```" + errors[num] + "```");
-  }
-
-  function play(connection, message) {
-    let server = servers[message.guild.id];
-
-    server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
-
-    server.queue.shift();
-
-    server.dispatcher.on("end", function() {
-      if(server.queue[0]) play(connection, message);
-      else connection.disconnect();
-    });
   }
 
 });
