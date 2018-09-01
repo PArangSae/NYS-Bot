@@ -88,7 +88,7 @@ bot.on("message", async message => {
         } else {
           let num2 = parseInt(messageArray[1]);
           let num3 = parseInt(messageArray[2]);
-          return message.channel.send(mention + " " + num2 + "부터 " + num3 + "중 뽑힌 숫자 : " + (parseInt(Math.random()*num3 - num2) + num2));
+          return message.channel.send(mention + " " + num2 + "부터 " + num3 + "중 뽑힌 숫자 : " + (parseInt(Math.random()*num3 - num2) + num3));
         }
 
       } else {
