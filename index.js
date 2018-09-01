@@ -1,6 +1,6 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
-const music = require("discord.js-music-v11");
+//const music = require("discord.js-music-v11");
 
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -32,12 +32,12 @@ bot.on("message", async message => {
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
 
-  music(bot, {
-  	prefix: "//",     // Prefix of '-'.
-  	global: false,   // Server-specific queues.
-  	maxQueueSize: 10, // Maximum queue size of 10.
-  	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
-  });
+  //music(bot, {
+  	//prefix: "//",     // Prefix of '-'.
+  	//global: false,   // Server-specific queues.
+  	//maxQueueSize: 10, // Maximum queue size of 10.
+  	//clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
+  //});
 
   switch (cmd) {
     case `${prefix}help`: //help
