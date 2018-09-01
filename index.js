@@ -30,8 +30,8 @@ bot.on("message", async message => {
   let mention = message.author;
   let allArgs = message.content.replace(cmd + " ", "");
   let allSArgs = message.content.replace("s ", "");
-  let urlEncode1 = encodeURI(allArgs);
-  let urlEncode2 = encodeURI(allSArgs);
+  let urlEncode = encodeURI(allArgs);
+  let urlSEncode = encodeURI(allSArgs);
 
   let d = new Date();
 
