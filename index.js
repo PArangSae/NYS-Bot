@@ -72,13 +72,13 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}say`: //말하기
-      if (messageArray.length > 0) {
+      if (messageArray.length > 1) {
         return message.channel.send(allArgs + " " + messageArray.length);
       }
       break;
 
     case `${prefix}pick`:
-      if(messageArray.length < 4 || messageArray.length > 0) {
+      if(messageArray.length < 4 || messageArray.length > 1) {
         if(messageArray.length == 2) {
           let num1 = parseInt(messageArray[1]);
           return message.channel.send(mention + " 1부터 " + num1 + "중 뽑힌 숫자 : " + (parseInt(Math.random()*num1) + 1));
