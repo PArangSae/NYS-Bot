@@ -4,7 +4,7 @@ const YTDL = require("ytdl-core");
 
 const bot = new Discord.Client({disableEveryone: true});
 
-let servers = {};
+var servers = {};
 
 const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "음성채널에 입장 후 실행해주세요."];
 
@@ -148,7 +148,7 @@ bot.on("message", async message => {
         queue: []
       };
 
-      let server = servers[message.guild.id];
+      var server = servers[message.guild.id];
 
       server.queue.push(messageArray[1]);
 
@@ -159,13 +159,13 @@ bot.on("message", async message => {
       break;
 
     case `${prefix}skip`:
-      let server1 = servers[message.guild.id];
+      var server = servers[message.guild.id];
 
-      if(server1.dispatcher) server1.dispatcher.end();
+      if(server.dispatcher) server.dispatcher.end();
       break;
 
     case `${prefix}stop`:
-      let server2 = servers[message.guild.id];
+      var server = servers[message.guild.id];
 
       if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
