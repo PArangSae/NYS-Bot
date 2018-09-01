@@ -36,7 +36,7 @@ bot.on("message", async message => {
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
 
-  music(Bot, {
+  music(bot, {
   	prefix: "//",     // Prefix of '-'.
   	global: false,   // Server-specific queues.
   	maxQueueSize: 10, // Maximum queue size of 10.
