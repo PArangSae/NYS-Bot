@@ -1,8 +1,8 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const got = require("got");
-const express = require("express");
-const app = express();
+var express = require("express");
+var app = express();
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -13,7 +13,7 @@ const bot = new Discord.Client({disableEveryone: true});
 const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "음성채널에 입장 후 실행해주세요."];
 
 const cheerio = require('cheerio');
-const request = require('request');
+var request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 let pData = [];
 
@@ -179,10 +179,10 @@ bot.on("message", async message => {
               break;
 
             case "gif":
-              const res = await got(`https://api.giphy.com/v1/gifs/random?api_key=${giphyApi}&tag=${urlSEncode}`, {json: true});
+              const gres = await got(`https://api.giphy.com/v1/gifs/random?api_key=${giphyApi}&tag=${urlSEncode}`, {json: true});
               const gifembed = new Discord.RichEmbed()
               .setDescription(`${allSArgs}에 대한 Giphy 검색 결과`)
-              .setImage(res.body.data.image_url)
+              .setImage(gres.body.data.image_url)
               .setAuthor(message.author.tag, message.author.displayAvatarURL);
 
               return message.channel.send(gifembed);
