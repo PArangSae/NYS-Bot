@@ -196,7 +196,7 @@ bot.on("message", async message => {
         var api_url = 'https://openapi.naver.com/v1/language/translate';
         var options = {
             url: api_url,
-            form: {'source':'ko', 'target':'en', 'text':messageArray[1]},
+            form: {'source':'ko', 'target':'en', 'text':"안녕하세요. 저는 고양이를 좋아합니다."},
             headers: {'X-Naver-Client-Id':config.tr_client_id, 'X-Naver-Client-Secret': config.tr_secret}
           };
           request.post(options, function (error, response, body) {
