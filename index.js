@@ -193,7 +193,7 @@ bot.on("message", async message => {
 
     case `${prefix}tr`:
       app.get('/translate', function (req, res) {
-        var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+        var api_url = 'https://openapi.naver.com/v1/language/translate';
         var options = {
             url: api_url,
             form: {'source':'ko', 'target':'en', 'text':messageArray[1]},
