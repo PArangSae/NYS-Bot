@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const got = require("got");
 const express = require("express");
 const app = express();
+const YTDL = require("ytdl-core");
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -16,6 +17,8 @@ const cheerio = require('cheerio');
 const request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 let pData = [];
+
+var servers = {};
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -214,6 +217,33 @@ bot.on("message", async message => {
         });
       break;
 
+    case `${prefix}play`:
+      if(!message.member.voiceChannel) {
+        errorPrint(3);
+      }
+
+      if(!servers[message.guild.id]) servers[message.guild.id] = {
+        queue: []
+      };
+
+      var server = servers[message.guild.id];
+
+      if(!message.guild.voiceChannel) message.member.voiceChannel.join().then(function(connection){
+        play(connection, message);
+      });
+      break;
+
+    case `${prefix}skip`:
+      var server = servers[message.guild.id];
+
+      if(server.dispatcher) server.dispatcher.end();
+      break;
+
+    case `${prefix}stop`:
+      var server = servers[message.guild.id];
+
+      if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
+
     default: //구문이 잘못된 경우
       errorPrint(0);
   }
@@ -221,6 +251,19 @@ bot.on("message", async message => {
 
   function errorPrint(num) {
     return message.channel.send(mention + "```" + errors[num] + "```");
+  }
+
+  function play(connection, message) {
+    var server = servers[message.guild.id];
+
+    server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
+
+    server.queue.shift();
+
+    server.dispatcher.on("end", function() {
+      if (server.queue[0]) play(connection, message);
+      else connection.disconnect();
+    })
   }
 
 });
