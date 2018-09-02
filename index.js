@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const got = require("got");
 const express = require("express");
 const app = express();
+const music = require("discord.js-music-v11");
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -120,9 +121,9 @@ bot.on("message", async message => {
       .setTitle("Entry Staff Picks")
       .setDescription("엔트리 실시간 스태프 선정 작품")
       .setColor("#2478FF")
-      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`, true)
-      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`, true)
-      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`, true);
+      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
+      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
+      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
       return message.channel.send(spembed);
     });
     break;
@@ -223,6 +224,13 @@ bot.on("message", async message => {
     return message.channel.send(mention + "```" + errors[num] + "```");
   }
 
+});
+
+music(bot, {
+	prefix: '//',     // Prefix of '-'.
+	global: false,   // Server-specific queues.
+	maxQueueSize: 10, // Maximum queue size of 10.
+	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
 });
 
 bot.login(config.token);
