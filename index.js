@@ -197,7 +197,7 @@ bot.on("message", async message => {
         var options = {
             url: api_url,
             form: {'source':'ko', 'target':'en', 'text':messageArray[1]},
-            headers: {'X-Naver-Client-Id':config.tr_client_id, 'X-Naver-Client-Secret': congif.tr_secret}
+            headers: {'X-Naver-Client-Id':config.tr_client_id, 'X-Naver-Client-Secret': config.tr_secret}
           };
           request.post(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
