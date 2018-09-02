@@ -3,7 +3,6 @@ const Discord = require("discord.js");
 const got = require("got");
 const express = require("express");
 const app = express();
-const music = require("discord.js-music-v11");
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -21,13 +20,6 @@ let pData = [];
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
   bot.user.setGame("//help");
-});
-
-music(bot, {
-	prefix: '//',     // Prefix of '-'.
-	global: false,   // Server-specific queues.
-	maxQueueSize: 10, // Maximum queue size of 10.
-	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
 });
 
 bot.on("message", async message => {
@@ -232,6 +224,5 @@ bot.on("message", async message => {
   }
 
 });
-
 
 bot.login(config.token);
