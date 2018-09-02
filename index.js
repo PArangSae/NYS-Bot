@@ -1,6 +1,10 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const got = require("got");
+const express = require("express");
+const app = express();
+
+const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
 //const music = require("discord.js-music-v11");
 
@@ -187,21 +191,24 @@ bot.on("message", async message => {
         }
       }
 
-
-    /*
-    case `${prefix}play`: //음악 재생 명령어
-      //if(!messageArray[1]) {
-        //errorPrint(2); //파라미터를 입력해주세요
-        //return;
-      //}
-
-      //if(!message.member.voiceChannel) {
-        //errorPrint(3); //음성채널에 입장해주세요
-        //return;
-      //}
-      return play()
-      break;
-      */
+    case `${prefix}tr`:
+      app.get('/translate', function (req, res) {
+        var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+        var options = {
+            url: api_url,
+            form: {'source':'ko', 'target':'en', 'text':messageArray[1]},
+            headers: {'X-Naver-Client-Id':tr.id, 'X-Naver-Client-Secret': tr.secret}
+          };
+          request.post(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+              res.end(body);
+            } else {
+              res.status(response.statusCode).end();
+              console.log('error = ' + response.statusCode);
+            }
+          });
+        });
 
     default: //구문이 잘못된 경우
       errorPrint(0);
