@@ -23,6 +23,13 @@ bot.on("ready", async () => {
   bot.user.setGame("//help");
 });
 
+music(bot, {
+	prefix: '//',     // Prefix of '-'.
+	global: false,   // Server-specific queues.
+	maxQueueSize: 10, // Maximum queue size of 10.
+	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
+});
+
 bot.on("message", async message => {
   if(message.author.bot) return; //봇이 아닌 유저인 경우 체크
   if(message.channel.type === "dm") return;
@@ -226,11 +233,5 @@ bot.on("message", async message => {
 
 });
 
-music(bot, {
-	prefix: '//',     // Prefix of '-'.
-	global: false,   // Server-specific queues.
-	maxQueueSize: 10, // Maximum queue size of 10.
-	clearInvoker: true // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
-});
 
 bot.login(config.token);
