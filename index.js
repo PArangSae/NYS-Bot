@@ -3,7 +3,6 @@ const Discord = require("discord.js");
 const got = require("got");
 const express = require("express");
 const app = express();
-const YTDL = require("ytdl-core");
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -17,8 +16,6 @@ const cheerio = require('cheerio');
 const request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 let pData = [];
-
-var servers = {};
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -123,9 +120,9 @@ bot.on("message", async message => {
       .setTitle("Entry Staff Picks")
       .setDescription("엔트리 실시간 스태프 선정 작품")
       .setColor("#2478FF")
-      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
-      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
-      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
+      .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`, true)
+      .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`, true)
+      .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`, true);
       return message.channel.send(spembed);
     });
     break;
@@ -217,33 +214,6 @@ bot.on("message", async message => {
         });
       break;
 
-    case `${prefix}play`:
-      if(!message.member.voiceChannel) {
-        errorPrint(3);
-      }
-
-      if(!servers[message.guild.id]) servers[message.guild.id] = {
-        queue: []
-      };
-
-      var server = servers[message.guild.id];
-
-      if(!message.guild.voiceChannel) message.member.voiceChannel.join().then(function(connection){
-        play(connection, message);
-      });
-      break;
-
-    case `${prefix}skip`:
-      var server = servers[message.guild.id];
-
-      if(server.dispatcher) server.dispatcher.end();
-      break;
-
-    case `${prefix}stop`:
-      var server = servers[message.guild.id];
-
-      if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
-
     default: //구문이 잘못된 경우
       errorPrint(0);
   }
@@ -251,19 +221,6 @@ bot.on("message", async message => {
 
   function errorPrint(num) {
     return message.channel.send(mention + "```" + errors[num] + "```");
-  }
-
-  function play(connection, message) {
-    var server = servers[message.guild.id];
-
-    server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: "audioonly"}));
-
-    server.queue.shift();
-
-    server.dispatcher.on("end", function() {
-      if (server.queue[0]) play(connection, message);
-      else connection.disconnect();
-    })
   }
 
 });
