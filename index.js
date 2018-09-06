@@ -16,6 +16,7 @@ const cheerio = require('cheerio');
 var request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 let pData = [];
+let logs = [];
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -36,12 +37,11 @@ bot.on("message", async message => {
   let allSArgs = message.content.replace(messageArray[0] + " " + messageArray[1] + " ", "");
   let urlEncode = encodeURI(allArgs);
   let urlSEncode = encodeURI(allSArgs);
-  let logs = [];
 
   let d = new Date();
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
-  logs[logs.length] = `${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+  logs.push(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
 
   //music(bot, {
   	//prefix: "//",     // Prefix of '-'.
@@ -222,11 +222,11 @@ bot.on("message", async message => {
     var embed = new Discord.RichEmbed()
     .setTitle("NYS Bot View Logs")
     .setDescription("NYS Bot의 최신 로그들을 확인합니다.")
+    .addField("──────────", logs[logs.length - 6])
     .addField("──────────", logs[logs.length - 5])
     .addField("──────────", logs[logs.length - 4])
     .addField("──────────", logs[logs.length - 3])
-    .addField("──────────", logs[logs.length - 2])
-    .addField("──────────", logs[logs.length - 1]);
+    .addField("──────────", logs[logs.length - 2]);
 
     return message.channel.send(embed);
     break;
