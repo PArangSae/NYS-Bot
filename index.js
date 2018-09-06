@@ -36,6 +36,7 @@ bot.on("message", async message => {
   let allSArgs = message.content.replace(messageArray[0] + " " + messageArray[1] + " ", "");
   let urlEncode = encodeURI(allArgs);
   let urlSEncode = encodeURI(allSArgs);
+  let logs = [];
 
   let d = new Date();
 
@@ -51,7 +52,7 @@ bot.on("message", async message => {
   switch (cmd) {
     case `${prefix}help`: //help
       const hprofileIMG = bot.user.displayAvatarURL;
-      const hembed = new Discord.RichEmbed()
+      var embed = new Discord.RichEmbed()
       .setTitle("NYS Bot Commands")
       .setDescription("NYS Bot Commands")
       .setColor("#2478FF")
@@ -63,12 +64,12 @@ bot.on("message", async message => {
       .addField(`${prefix}sp`, "엔트리 스태프 선정 작품을 실시간으로 확인합니다.")
       .addField(`${prefix}pp`, "엔트리 인기작품을 실시간으로 확인합니다.")
       .addField(`${prefix}s help`, "검색 도움말을 확인합니다.");
-      return message.channel.send(hembed);
+      return message.channel.send(embed);
       break;
 
     case `${prefix}info`: //봇 정보
       const iprofileIMG = bot.user.displayAvatarURL;
-      const iembed = new Discord.RichEmbed()
+      var embed = new Discord.RichEmbed()
       .setTitle("NYS Bot Information")
       .setDescription("NYS Bot Information")
       .setColor("#2478FF")
@@ -79,7 +80,7 @@ bot.on("message", async message => {
       .addField("Development Language", "Javascript")
       .addField("Hosting", "Heroku")
       .addField("Invite Link", "https://discordapp.com/oauth2/authorize?client_id=472572874192977930&scope=bot&permissions=bot");
-      return message.channel.send(iembed);
+      return message.channel.send(embed);
       break;
 
     case `${prefix}say`: //말하기
@@ -116,14 +117,14 @@ bot.on("message", async message => {
       for (var i = 0; i < 3; i++) {
         pData.push({username: uObj[i].project.user.username,name: uObj[i].project.name,visit: uObj[i].project.visit,like: uObj[i].project.likeCnt,comment: uObj[i].project.comment, shortenUrl: uObj[i].project.shortenUrl});
       }
-      const spembed = new Discord.RichEmbed()
+      var embed = new Discord.RichEmbed()
       .setTitle("Entry Staff Picks")
       .setDescription("엔트리 실시간 스태프 선정 작품")
       .setColor("#2478FF")
       .addField(pData[0].name, `개발자 ${pData[0].username} | 조회수 ${pData[0].visit} | 좋아요 ${pData[0].like}개 | 댓글 ${pData[0].comment}개 | [Click here](${pData[0].shortenUrl})`)
       .addField(pData[1].name, `개발자 ${pData[1].username} | 조회수 ${pData[1].visit} | 좋아요 ${pData[1].like}개 | 댓글 ${pData[1].comment}개 | [Click here](${pData[1].shortenUrl})`)
       .addField(pData[2].name, `개발자 ${pData[2].username} | 조회수 ${pData[2].visit} | 좋아요 ${pData[2].like}개 | 댓글 ${pData[2].comment}개 | [Click here](${pData[2].shortenUrl})`);
-      return message.channel.send(spembed);
+      return message.channel.send(embed);
     });
     break;
 
@@ -136,7 +137,7 @@ bot.on("message", async message => {
       for (var j = 0; j < 9; j++) {
         pData.push({username: pObj[j].project.user.username,name: pObj[j].project.name,visit: pObj[j].project.visit,like: pObj[j].project.likeCnt,comment: pObj[j].project.comment, shortenUrl: pObj[j].project.shortenUrl});
       }
-      const ppembed = new Discord.RichEmbed()
+      var embed = new Discord.RichEmbed()
       .setTitle("Entry Popular Projects")
       .setDescription("엔트리 실시간 인기작품")
       .setColor("#2478FF")
@@ -149,14 +150,14 @@ bot.on("message", async message => {
       .addField(pData[6].name, `개발자 ${pData[6].username} | 조회수 ${pData[6].visit} | 좋아요 ${pData[6].like}개 | 댓글 ${pData[6].comment}개 | [Click here](${pData[6].shortenUrl})`)
       .addField(pData[7].name, `개발자 ${pData[7].username} | 조회수 ${pData[7].visit} | 좋아요 ${pData[7].like}개 | 댓글 ${pData[7].comment}개 | [Click here](${pData[7].shortenUrl})`)
       .addField(pData[8].name, `개발자 ${pData[8].username} | 조회수 ${pData[8].visit} | 좋아요 ${pData[8].like}개 | 댓글 ${pData[8].comment}개 | [Click here](${pData[8].shortenUrl})`);
-      return message.channel.send(ppembed);
+      return message.channel.send(embed);
     });
     break;
 
     case `${prefix}s`:
     case `${prefix}search`:
       if(messageArray.length == 2 && messageArray[1] == "help") {
-        const shembed = new Discord.RichEmbed()
+        const embed = new Discord.RichEmbed()
         .setTitle("NYS Bot Search Commands")
         .setDescription(`NYS Bot Search Commands [접두사 's'는 'search'로 사용 가능합니다. 예) ${prefix}s naver 니스봇 = ${prefix}search naver 니스봇]`)
         .setColor("#2478FF")
@@ -166,7 +167,7 @@ bot.on("message", async message => {
         //.addField(`${prefix}s entry <검색어>`, "엔트리 작품 검색을 합니다.")
         //.addField(`${prefix}s entryc <검색어>`, "엔트리 커뮤니티 검색을 합니다.")
         .addField(`${prefix}s gif <검색어>`, "랜덤 GIF(Giphy) 검색을 합니다.");
-        return message.channel.send(shembed);
+        return message.channel.send(embed);
       } else {
         if(messageArray.length > 2) {
           switch(messageArray[1]) {
@@ -180,12 +181,12 @@ bot.on("message", async message => {
 
             case "gif":
               const gres = await got(`https://api.giphy.com/v1/gifs/random?api_key=${giphyApi}&tag=${urlSEncode}`, {json: true});
-              const gifembed = new Discord.RichEmbed()
+              const embed = new Discord.RichEmbed()
               .setDescription(`${allSArgs}에 대한 Giphy 검색 결과`)
               .setImage(gres.body.data.image_url)
               .setAuthor(message.author.tag, message.author.displayAvatarURL);
 
-              return message.channel.send(gifembed);
+              return message.channel.send(embed);
               break;
           }
         }
