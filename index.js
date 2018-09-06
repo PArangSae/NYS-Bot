@@ -41,7 +41,7 @@ bot.on("message", async message => {
   let d = new Date();
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
-  logs.push(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
+  logs[logs.length] = `${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
 
   //music(bot, {
   	//prefix: "//",     // Prefix of '-'.
@@ -225,6 +225,7 @@ bot.on("message", async message => {
     .addField("──────────", logs[logs.length]);
 
     return message.channel.send(embed);
+    break;
 
 
     default: //구문이 잘못된 경우
