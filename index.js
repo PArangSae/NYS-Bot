@@ -64,6 +64,7 @@ bot.on("message", async message => {
       .addField(`${prefix}pick <첫번째 숫자> [두번째 숫자]`, "1부터 첫번째 숫자 중 하나의 숫자를 뽑거나 첫번째 숫자부터 두번째 숫자 중 하나의 숫자를 뽑습니다.")
       .addField(`${prefix}sp`, "엔트리 스태프 선정 작품을 실시간으로 확인합니다.")
       .addField(`${prefix}pp`, "엔트리 인기작품을 실시간으로 확인합니다.")
+      .addField(`${prefix}log`, "NYS Bot의 로그를 확인합니다. (log 명령어는 logs로 사용 가능합니다.)")
       .addField(`${prefix}s help`, "검색 도움말을 확인합니다.");
       return message.channel.send(embed);
       break;
