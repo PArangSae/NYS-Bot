@@ -222,11 +222,11 @@ bot.on("message", async message => {
     var embed = new Discord.RichEmbed()
     .setTitle("NYS Bot View Logs")
     .setDescription("NYS Bot의 최신 로그들을 확인합니다.")
-    .addField("──────────", logs[logs.length - 6])
     .addField("──────────", logs[logs.length - 5])
     .addField("──────────", logs[logs.length - 4])
     .addField("──────────", logs[logs.length - 3])
-    .addField("──────────", logs[logs.length - 2]);
+    .addField("──────────", logs[logs.length - 2])
+    .addField("──────────", logs[logs.length - 1]);
 
     return message.channel.send(embed);
     break;
