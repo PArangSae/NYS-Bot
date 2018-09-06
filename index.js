@@ -220,8 +220,13 @@ bot.on("message", async message => {
   }
 
 
-  function errorPrint(num) {
-    return message.channel.send(mention + "```" + errors[num] + "```");
+  function errorPrint(num) { //:warning:
+    const erembed = new Discord.RichEmbed()
+    .setTitle(":warning: 명령어 에러")
+    .setDescription(errors[num])
+    .setColor("#ED0000")
+    .setAuthor(message.author.tag, message.author.displayAvatarURL);
+    return message.channel.send(erembed);
   }
 
 });
