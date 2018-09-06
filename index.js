@@ -41,6 +41,7 @@ bot.on("message", async message => {
   let d = new Date();
 
   console.log(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
+  logs.push(`${message.author} used "${message.content}" - Time ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
 
   //music(bot, {
   	//prefix: "//",     // Prefix of '-'.
@@ -157,7 +158,7 @@ bot.on("message", async message => {
     case `${prefix}s`:
     case `${prefix}search`:
       if(messageArray.length == 2 && messageArray[1] == "help") {
-        const embed = new Discord.RichEmbed()
+        var embed = new Discord.RichEmbed()
         .setTitle("NYS Bot Search Commands")
         .setDescription(`NYS Bot Search Commands [접두사 's'는 'search'로 사용 가능합니다. 예) ${prefix}s naver 니스봇 = ${prefix}search naver 니스봇]`)
         .setColor("#2478FF")
@@ -216,6 +217,16 @@ bot.on("message", async message => {
      });
       break;
 
+    case `${prefix}log`:
+    case `${prefix}logs`:
+    var embed = new Discord.RichEmbed()
+    .setTitle("NYS Bot View Logs")
+    .setDescription("NYS Bot의 최신 로그들을 확인합니다.")
+    .addField("", logs[logs.length]);
+
+    return message.channel.send(embed);
+
+
     default: //구문이 잘못된 경우
       errorPrint(0);
   }
@@ -223,7 +234,7 @@ bot.on("message", async message => {
 
   function errorPrint(num) { //:warning:
     const erembed = new Discord.RichEmbed()
-    .setTitle(":warning: 명령어 에러")
+    .setTitle(":warning: Error!")
     .setDescription(errors[num])
     .setColor("#ED0000")
     .setAuthor(message.author.tag, message.author.displayAvatarURL);
