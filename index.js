@@ -1,7 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const got = require("got");
-var express = require("express");
+var express = require('express');
 var app = express();
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
@@ -17,6 +17,9 @@ var request = require('request');
 let url = "https://playentry.org/api/rankProject?type=staff&limit=3&noCache=1535458594330";
 let pData = [];
 let logs = [];
+let swear = ["시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅄ", "ㅂㅅ", "개새", "ㄳㄲ", "ㄱㅅㄲ"];
+swear.push("존나", "ㅈㄴ", "졸라", "븅신", "섹스", "색스", "섹", "느금마", "느개비", "ㄴㄱㅁ", "ㄴㄱㅂ");
+swear.push("뒤져", "뒈져" "디져");
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -196,26 +199,28 @@ bot.on("message", async message => {
 
     case `${prefix}tr`:
     app.get('/translate', function (req, res) {
-       var api_url = 'https://openapi.naver.com/v1/language/translate';
-       var request = require('request');
-       var options = {
-           url: api_url,
-           form: {'source':'ko', 'target':'en', 'text':allArgs},
-           headers: {'X-Naver-Client-Id':config.tr_client_id, 'X-Naver-Client-Secret': config.tr_secret}
-        };
-       request.post(options, function (error, response, body) {
-         if (!error && response.statusCode == 200) {
-           res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-           res.end(body);
-         } else {
-           res.status(response.statusCode).end();
-           console.log('error = ' + response.statusCode);
-         }
+      var query = "반갑습니다. 저는 고양이를 사랑합니다.";
+      app.get('/translate', function (req, res) {
+         var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+         var request = require('request');
+         var options = {
+             url: api_url,
+             form: {'source':'ko', 'target':'en', 'text':query},
+             headers: {'X-Naver-Client-Id':'os47QslNhqVYXZANG9A8', 'X-Naver-Client-Secret': 'jTpqntjyjT'}
+          };
+         request.post(options, function (error, response, body) {
+           if (!error && response.statusCode == 200) {
+             res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+             res.end(body);
+           } else {
+             res.status(response.statusCode).end();
+             console.log('error = ' + response.statusCode);
+           }
+         });
        });
-     });
-     app.listen(3000, function () {
-       console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
-     });
+       app.listen(3000, function () {
+         console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
+       });
       break;
 
     case `${prefix}log`:
