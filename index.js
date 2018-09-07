@@ -19,13 +19,13 @@ let swear = ["시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅄ", "ㅂㅅ", 
 swear.push("존나", "ㅈㄴ", "졸라", "븅신", "섹스", "색스", "섹", "느금마", "느개비", "ㄴㄱㅁ", "ㄴㄱㅂ");
 swear.push("뒤져", "뒈져", "디져");
 
-var api_url = 'https://openapi.naver.com/v1/language/translate';
+var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
 var request = require('request');
 
 var express = require('express');
 var app = express();
-var client_id = 'T9z84t42ijzuqRz9npFo';//개발자센터에서 발급받은 Client ID
-var client_secret = 'LuEQ3Dw4Dw'; //개발자센터에서 발급받은 Client Secret
+var client_id = '246vhJODV7fPR7NYdME0';//개발자센터에서 발급받은 Client ID
+var client_secret = 'okg9_Vt2OG'; //개발자센터에서 발급받은 Client Secret
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -205,7 +205,7 @@ bot.on("message", async message => {
 
     case `${prefix}tr`:
     var query = "반갑습니다.";
-    app.get('/translate', function (req, res) {
+    app.post('/translate', function (req, res) {
 
        var options = {
            url: api_url,
