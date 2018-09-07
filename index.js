@@ -222,9 +222,8 @@ bot.on("message", async message => {
          }
        });
      });
-     app.listen(9000, function () {
-       console.log('http://127.0.0.1:3000/translate app listening on port 9000!');
-     });
+     //app.listen(3000, function () {
+     //});
       break;
 
     case `${prefix}log`:
