@@ -19,9 +19,6 @@ let swear = ["시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅄ", "ㅂㅅ", 
 swear.push("존나", "ㅈㄴ", "졸라", "븅신", "섹스", "색스", "섹", "느금마", "느개비", "ㄴㄱㅁ", "ㄴㄱㅂ");
 swear.push("뒤져", "뒈져", "디져");
 
-var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
-var request = require('request');
-
 var express = require('express');
 var app = express();
 var client_id = '246vhJODV7fPR7NYdME0';//개발자센터에서 발급받은 Client ID
@@ -206,7 +203,8 @@ bot.on("message", async message => {
     case `${prefix}tr`:
     var query = "반갑습니다.";
     app.post('/translate', function (req, res) {
-
+      var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+      var request = require('request');
        var options = {
            url: api_url,
            form: {'source':'ko', 'target':'en', 'text':query},
@@ -221,6 +219,9 @@ bot.on("message", async message => {
            console.log('error = ' + response.statusCode);
          }
        });
+     });
+     app.listen(3000, function () {
+       console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
      });
      //app.listen(3000, function () {
      //});
