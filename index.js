@@ -1,8 +1,6 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const got = require("got");
-var express = require('express');
-var app = express();
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -19,7 +17,7 @@ let pData = [];
 let logs = [];
 let swear = ["시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅄ", "ㅂㅅ", "개새", "ㄳㄲ", "ㄱㅅㄲ"];
 swear.push("존나", "ㅈㄴ", "졸라", "븅신", "섹스", "색스", "섹", "느금마", "느개비", "ㄴㄱㅁ", "ㄴㄱㅂ");
-swear.push("뒤져", "뒈져" "디져");
+swear.push("뒤져", "뒈져", "디져");
 
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
@@ -198,29 +196,32 @@ bot.on("message", async message => {
       }
 
     case `${prefix}tr`:
+    var express = require('express');
+    var app = express();
+    var client_id = 'os47QslNhqVYXZANG9A8';
+    var client_secret = 'jTpqntjyjT';
+    var query = "안녕하세요. 저는 고양이를 좋아합니다.";
     app.get('/translate', function (req, res) {
-      var query = "반갑습니다. 저는 고양이를 사랑합니다.";
-      app.get('/translate', function (req, res) {
-         var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
-         var request = require('request');
-         var options = {
-             url: api_url,
-             form: {'source':'ko', 'target':'en', 'text':query},
-             headers: {'X-Naver-Client-Id':'os47QslNhqVYXZANG9A8', 'X-Naver-Client-Secret': 'jTpqntjyjT'}
-          };
-         request.post(options, function (error, response, body) {
-           if (!error && response.statusCode == 200) {
-             res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-             res.end(body);
-           } else {
-             res.status(response.statusCode).end();
-             console.log('error = ' + response.statusCode);
-           }
-         });
+       var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+       var request = require('request');
+       var options = {
+           url: api_url,
+           form: {'source':'ko', 'target':'en', 'text':query},
+           headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+        };
+       request.post(options, function (error, response, body) {
+         if (!error && response.statusCode == 200) {
+           res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+           res.end(body);
+         } else {
+           res.status(response.statusCode).end();
+           console.log('error = ' + response.statusCode);
+         }
        });
-       app.listen(3000, function () {
-         console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
-       });
+     });
+     app.listen(3000, function () {
+       console.log('http://127.0.0.1:3000/translate app listening on port 3000!');
+     });
       break;
 
     case `${prefix}log`:
