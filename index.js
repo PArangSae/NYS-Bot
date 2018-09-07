@@ -19,6 +19,14 @@ let swear = ["시발", "씨발", "ㅅㅂ", "ㅆㅂ", "병신", "ㅄ", "ㅂㅅ", 
 swear.push("존나", "ㅈㄴ", "졸라", "븅신", "섹스", "색스", "섹", "느금마", "느개비", "ㄴㄱㅁ", "ㄴㄱㅂ");
 swear.push("뒤져", "뒈져", "디져");
 
+var api_url = 'https://openapi.naver.com/v1/language/translate';
+var request = require('request');
+
+var express = require('express');
+var app = express();
+var client_id = 'T9z84t42ijzuqRz9npFo';//개발자센터에서 발급받은 Client ID
+var client_secret = 'LuEQ3Dw4Dw'; //개발자센터에서 발급받은 Client Secret
+
 bot.on("ready", async () => {
   console.log(`${bot.user.username} ON!`);
   bot.user.setGame("//help");
@@ -196,14 +204,9 @@ bot.on("message", async message => {
       }
 
     case `${prefix}tr`:
-    var express = require('express');
-    var app = express();
-    var client_id = 'T9z84t42ijzuqRz9npFo';//개발자센터에서 발급받은 Client ID
-    var client_secret = 'LuEQ3Dw4Dw'; //개발자센터에서 발급받은 Client Secret
     var query = "반갑습니다.";
     app.get('/translate', function (req, res) {
-       var api_url = 'https://openapi.naver.com/v1/language/translate';
-       var request = require('request');
+
        var options = {
            url: api_url,
            form: {'source':'ko', 'target':'en', 'text':query},
@@ -211,8 +214,8 @@ bot.on("message", async message => {
         };
        request.post(options, function (error, response, body) {
          if (!error && response.statusCode == 200) {
-           res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-           res.end(body);
+           var objBody = JSON.parse(response.body);
+           return message.channel.send(objBody.message.result.translatedText);
          } else {
            res.status(response.statusCode).end();
            console.log('error = ' + response.statusCode);
