@@ -198,11 +198,11 @@ bot.on("message", async message => {
     case `${prefix}tr`:
     var express = require('express');
     var app = express();
-    var client_id = 'os47QslNhqVYXZANG9A8';
-    var client_secret = 'jTpqntjyjT';
-    var query = "안녕하세요. 저는 고양이를 좋아합니다.";
+    var client_id = 'T9z84t42ijzuqRz9npFo';//개발자센터에서 발급받은 Client ID
+    var client_secret = 'LuEQ3Dw4Dw'; //개발자센터에서 발급받은 Client Secret
+    var query = "반갑습니다.";
     app.get('/translate', function (req, res) {
-       var api_url = 'https://openapi.naver.com/v1/papago/n2mt';
+       var api_url = 'https://openapi.naver.com/v1/language/translate';
        var request = require('request');
        var options = {
            url: api_url,
