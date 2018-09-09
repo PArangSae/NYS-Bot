@@ -1,6 +1,7 @@
 const config = require("./config.json");
 const Discord = require("discord.js");
 const got = require("got");
+const ytdl = require('ytdl-core');
 
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
@@ -8,7 +9,7 @@ const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
 
 const bot = new Discord.Client({disableEveryone: true});
 
-const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "음성채널에 입장 후 실행해주세요."];
+const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "잘못된 파라미터입니다."];
 
 const cheerio = require('cheerio');
 var request = require('request');
@@ -212,8 +213,8 @@ bot.on("message", async message => {
         };
        request.post(options, function (error, response, body) {
          if (!error && response.statusCode == 200) {
-           var objBody = JSON.parse(response.body);
-           return message.channel.send(objBody.message.result.translatedText);
+           res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+           res.end(body);
          } else {
            res.status(response.statusCode).end();
            console.log('error = ' + response.statusCode);
@@ -241,6 +242,42 @@ bot.on("message", async message => {
     return message.channel.send(embed);
     break;
 
+    case `${prefix}m`:
+    const voiceChannel = message.member.voiceChannel;
+    switch (messageArray[1]) {
+      case "play":
+      if(!voiceChannel) return message.channel.send('죄송합니다. 음성채널에 입장해주세요');
+      const permissions = voiceChannel.permissionsFor(message.client.user);
+      if(!permissions.has('CONNECT')) {
+        return message.cheannel.send('저에게 음성채널에 들어갈 권한이 없습니다.');
+      }
+      if(!permissions.has('SPEAK')) {
+        return message.channel.send('저에게 음성채널에서 음악을 틀 권한이 없습니다.');
+      }
+
+      try {
+        var connection = await voiceChannel.join();
+      } catch (error) {
+        console.error(`I could not join the voice channel - ${error}`);
+        return message.channel.send(`I could not join the voice channel - ${error}`);
+      }
+
+      const dispatcher = connection.playStream(ytdl(allArgs))
+        .on('end', () => {
+          console.log('song ended!');
+          voiceChannel.leave();
+        })
+        .on('error', error => {
+          console.error(error);
+        });
+      dispatcher.setVolumeLogarithmic(5 / 5);
+        break;
+
+      default:
+        errorPrint(3);
+    }
+
+    break;
 
     default: //구문이 잘못된 경우
       errorPrint(0);
