@@ -6,7 +6,7 @@ const ytdl = require('ytdl-core');
 const tr = {"id": config.tr_client_id, "secret": config.tr_secret};
 const giphyApi = "f5B4qAqleMEj7SV7H30EQDiAyyZwPfhp";
 //const music = require("discord.js-music-v11");
-
+//hi
 const bot = new Discord.Client({disableEveryone: true});
 
 const errors = ["잘못된 구문입니다. //help를 입력해서 명령어 목록을 확인하세요.", "필요한 파라미터 수보다 많거나, 적습니다.", "잘못된 파라미터입니다."];
